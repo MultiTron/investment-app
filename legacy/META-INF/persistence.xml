@@ -1,0 +1,33 @@
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
+    <persistence-unit name="supabase-unit">
+        <class>uni.pu.fmi.legacy.models.Stock</class>
+        <class>uni.pu.fmi.legacy.models.Stock2</class>
+        <class>uni.pu.fmi.legacy.models.Broker</class>
+        <class>uni.pu.fmi.legacy.models.Investor</class>
+        <class>uni.pu.fmi.legacy.models.Trade</class>
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:postgresql://aws-0-eu-central-2.pooler.supabase.com:5432/postgres?user=postgres.qbddodmczeunoiwjhiya&amp;password=verystrongpassword"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="verystrongpassword"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="h2-unit">
+        <class>uni.pu.fmi.legacy.models.Stock</class>
+
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1"/>
+            <property name="jakarta.persistence.jdbc.user" value="sa"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
