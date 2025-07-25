@@ -1,9 +1,11 @@
 package uni.pu.fmi.trades.services.implementations;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uni.pu.fmi.exceptions.ResourceNotFoundException;
 import uni.pu.fmi.models.Trade;
 import uni.pu.fmi.trades.dtos.trade.CreateTradeDto;
+import uni.pu.fmi.trades.dtos.trade.GetFullTradeDto;
 import uni.pu.fmi.trades.dtos.trade.GetTradeDto;
 import uni.pu.fmi.trades.dtos.trade.UpdateTradeDto;
 import uni.pu.fmi.trades.mappers.TradeMapper;
@@ -15,6 +17,7 @@ import java.util.List;
 import static uni.pu.fmi.exceptions.ErrorConstants.tradeNotFound;
 
 @Service
+@Transactional
 public class TradeServiceImpl implements TradeService {
 
     private final TradeRepository repo;
@@ -33,6 +36,17 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public GetTradeDto getById(Long id) {
         return mapper.toDto(repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(tradeNotFound(id))));
+    }
+
+    @Override
+    public List<GetFullTradeDto> getAllFull() {
+        return mapper.toFullDtoList(repo.findAllFull());
+    }
+
+    @Override
+    public GetFullTradeDto getFullById(Long id) {
+        return mapper.toFullDto(repo.findByIdFull(id)
                 .orElseThrow(() -> new ResourceNotFoundException(tradeNotFound(id))));
     }
 
