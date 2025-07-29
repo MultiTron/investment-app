@@ -6,7 +6,7 @@
   </component>
   <component name="PersistenceUnitSettings">
     <persistence-units>
-      <persistence-unit moduleName="db-examples" name="Default">
+      <persistence-unit moduleName="investment-app" name="Default">
         <packages>
           <package value="uni.pu.fmi" />
         </packages>
