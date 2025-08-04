@@ -7,6 +7,34 @@
     <groupId>uni.pu.fmi</groupId>
     <artifactId>investment-app</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <developers>
+        <developer>
+            <roles>
+                <role>
+                    Full stack developer
+                </role>
+            </roles>
+            <name>Ivailo Iliev</name>
+            <organization>Dreamix</organization>
+        </developer>
+    </developers>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit</groupId>
+                        <artifactId>junit-bom</artifactId>
+                        <version>5.12.2</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
 
     <properties>
         <maven.compiler.source>24</maven.compiler.source>
@@ -15,10 +43,43 @@
     </properties>
 
     <parent>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-parent</artifactId>
-            <version>3.5.3</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.3</version>
     </parent>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.3</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.9.1</version>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -72,7 +133,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.13.4</version>
             <scope>test</scope>
         </dependency>
 
@@ -83,6 +143,13 @@
             <version>5.18.0</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.9</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -90,7 +157,7 @@
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.12.2</version> <!-- Make sure this matches across all -->
+                <version>5.13.4</version> <!-- Make sure this matches across all -->
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

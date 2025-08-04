@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
@@ -50,13 +51,15 @@ class StockServiceTest {
 
         when(repo.findAll()).thenReturn(stockList);
 
-        when(mapper.toDtoList(stockList)).thenReturn(dtoList);
+        when(mapper.toDtoList(anyList())).thenReturn(dtoList);
 
-        service.getAll();
+        var list = service.getAll();
 
         verify(repo).findAll();
 
-        assertArrayEquals(new GetStockDto[]{new GetStockDto("Test1", "TS1"), new GetStockDto("Test2", "TS2"), new GetStockDto("Test3", "TS3")}, dtoList.toArray());
+        assertArrayEquals(
+                list.toArray(),
+                dtoList.toArray());
     }
 
     @Test
