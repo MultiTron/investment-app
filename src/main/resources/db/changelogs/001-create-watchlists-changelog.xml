@@ -1,0 +1,42 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet author="Ivaylo Iliev" id="1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="watchlists" schemaName="public" catalogName="investment_db"/>
+                <foreignKeyConstraintExists foreignKeyName="watchlists_investor_fkey"/>
+                <foreignKeyConstraintExists foreignKeyName="watchlists_stock_fkey"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="watchlists">
+            <column name="investor_id" type="UUID">
+                <constraints foreignKeyName="watchlists_investor_fkey" primaryKey="true" primaryKeyName="watchlists_pkey"/>
+            </column>
+            <column name="stock_id" type="UUID">
+                <constraints foreignKeyName="watchlists_stock_fkey" primaryKey="true" primaryKeyName="watchlists_pkey"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="watchlists" baseColumnNames="investor_id" constraintName="watchlists_investor_fkey"
+                                 referencedTableName="investors"
+                                 referencedColumnNames="person_id"/>
+        <addForeignKeyConstraint baseTableName="watchlists" baseColumnNames="stock_id" constraintName="watchlists_stock_fkey"
+                                 referencedTableName="stocks"
+                                 referencedColumnNames="id"/>
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="watchlists" constraintName="watchlists_investor_fkey"/>
+            <dropForeignKeyConstraint baseTableName="watchlists" constraintName="watchlists_stock_fkey"/>
+            <dropTable tableName="watchlists" />
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

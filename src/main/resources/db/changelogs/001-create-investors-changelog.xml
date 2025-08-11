@@ -1,0 +1,38 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet author="Ivaylo Iliev" id="1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="investors" schemaName="public" catalogName="investment_db"/>
+                <foreignKeyConstraintExists foreignKeyName="investors_person_fkey"/>
+            </not>
+            <tableExists tableName="persons" schemaName="public" catalogName="investment_db"/>
+        </preConditions>
+
+        <createTable tableName="investors">
+            <column name="person_id" type="UUID">
+                <constraints foreignKeyName="investors_person_fkey" primaryKey="true"/>
+            </column>
+            <column name="investor_since" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="investors" baseColumnNames="person_id" constraintName="investors_person_fkey"
+                                 referencedTableName="persons"
+                                 referencedColumnNames="id"/>
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="investors" constraintName="investors_person_fkey"/>
+            <dropTable tableName="investors" />
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

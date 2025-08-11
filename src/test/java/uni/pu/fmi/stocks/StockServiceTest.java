@@ -16,6 +16,7 @@ import uni.pu.fmi.stocks.services.implementations.StockServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -109,7 +110,7 @@ class StockServiceTest {
 
         when(repo.save(stock)).thenReturn(stock);
 
-        var id = service.createStock(stockDto);
+        UUID id = service.createStock(stockDto);
 
         verify(repo).save(mapper.toEntity(stockDto));
 
