@@ -6,8 +6,9 @@ import uni.pu.fmi.models.Trade;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface TradeRepository extends JpaRepository<Trade, Long> {
+public interface TradeRepository extends JpaRepository<Trade, UUID> {
 
     @Query("""
             SELECT t FROM Trade t
@@ -24,5 +25,5 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
             JOIN FETCH Stock s ON t.stock = s
             WHERE t.id = :id
             """)
-    public Optional<Trade> findByIdFull(Long id);
+    public Optional<Trade> findByIdFull(UUID id);
 }

@@ -10,6 +10,7 @@ import uni.pu.fmi.persons.dtos.broker.UpdateBrokerDto;
 import uni.pu.fmi.models.Broker;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BrokerMapper {

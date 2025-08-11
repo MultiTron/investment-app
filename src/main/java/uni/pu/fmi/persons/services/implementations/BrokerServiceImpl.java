@@ -12,6 +12,7 @@ import uni.pu.fmi.persons.repositories.BrokerRepository;
 import uni.pu.fmi.persons.services.PersonService;
 
 import java.util.List;
+import java.util.UUID;
 
 import static uni.pu.fmi.exceptions.ErrorConstants.brokerNotFound;
 
@@ -32,25 +33,25 @@ public class BrokerServiceImpl implements PersonService<GetBrokerDto, CreateBrok
     }
 
     @Override
-    public GetBrokerDto getById(Long id) {
+    public GetBrokerDto getById(UUID id) {
         return repo.findById(id).map(mapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException(brokerNotFound(id)));
     }
 
     @Override
-    public Long createPerson(CreateBrokerDto createPersonDto) {
+    public UUID createPerson(CreateBrokerDto createPersonDto) {
         return repo.save(mapper.toEntity(createPersonDto)).getId();
     }
 
     @Override
-    public void updatePerson(Long id, UpdateBrokerDto updatePersonDto) {
+    public void updatePerson(UUID id, UpdateBrokerDto updatePersonDto) {
         Broker broker = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(brokerNotFound(id)));
         mapper.toEntity(updatePersonDto, broker);
     }
 
     @Override
-    public void deletePerson(Long id) {
+    public void deletePerson(UUID id) {
         if (!repo.existsById(id)){
             throw new ResourceNotFoundException(brokerNotFound(id));
         }

@@ -17,6 +17,7 @@ import uni.pu.fmi.trades.services.TradeService;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
@@ -41,29 +42,29 @@ public class TradeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetTradeDto> getTrade(@PathVariable Long id) {
+    public ResponseEntity<GetTradeDto> getTrade(@PathVariable UUID id) {
         return ok(service.getById(id));
     }
 
     @GetMapping("/{id}/full")
-    public ResponseEntity<GetFullTradeDto> getTradeFull(@PathVariable Long id) {
+    public ResponseEntity<GetFullTradeDto> getTradeFull(@PathVariable UUID id) {
         return ok(service.getFullById(id));
     }
 
     @PostMapping("/new")
     public ResponseEntity<?> createTrade(@RequestBody CreateTradeDto dto) {
-        Long id = service.createTrade(dto);
+        UUID id = service.createTrade(dto);
         return created(URI.create("/trades/" + id)).build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateTrade(@PathVariable Long id, @RequestBody UpdateTradeDto dto) {
+    public ResponseEntity<?> updateTrade(@PathVariable UUID id, @RequestBody UpdateTradeDto dto) {
         service.updateTrade(id, dto);
         return ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTrade(@PathVariable Long id) {
+    public ResponseEntity<?> deleteTrade(@PathVariable UUID id) {
         service.deleteTrade(id);
         return ok().build();
     }

@@ -12,6 +12,7 @@ import uni.pu.fmi.stocks.repositories.StockRepository;
 import uni.pu.fmi.stocks.services.StockService;
 
 import java.util.List;
+import java.util.UUID;
 
 import static uni.pu.fmi.exceptions.ErrorConstants.stockNotFound;
 
@@ -31,25 +32,25 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public GetStockDto getById(Long id) {
+    public GetStockDto getById(UUID id) {
         return repo.findById(id).map(mapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException(stockNotFound(id)));
     }
 
     @Override
-    public Long createStock(CreateStockDto createStockDto) {
+    public UUID createStock(CreateStockDto createStockDto) {
         return repo.save(mapper.toEntity(createStockDto)).getId();
     }
 
     @Override
-    public void updateStock(Long id, UpdateStockDto updateStockDto) {
+    public void updateStock(UUID id, UpdateStockDto updateStockDto) {
         Stock stock = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(stockNotFound(id)));
         mapper.toEntity(updateStockDto, stock);
     }
 
     @Override
-    public void deleteStock(Long id) {
+    public void deleteStock(UUID id) {
         if (!repo.existsById(id)){
             throw new ResourceNotFoundException(stockNotFound(id));
         }

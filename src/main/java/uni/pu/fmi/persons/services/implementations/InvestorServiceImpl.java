@@ -16,6 +16,7 @@ import uni.pu.fmi.stocks.mappers.StockMapper;
 import uni.pu.fmi.stocks.repositories.StockRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 import static uni.pu.fmi.exceptions.ErrorConstants.investorNotFound;
 import static uni.pu.fmi.exceptions.ErrorConstants.stockNotFound;
@@ -41,38 +42,38 @@ public class InvestorServiceImpl implements PersonService<GetInvestorDto, Create
     }
 
     @Override
-    public GetInvestorDto getById(Long id) {
+    public GetInvestorDto getById(UUID id) {
         return invRepo.findById(id).map(invMapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException(investorNotFound(id)));
     }
 
     @Override
-    public Long createPerson(CreateInvestorDto createPersonDto) {
+    public UUID createPerson(CreateInvestorDto createPersonDto) {
         return invRepo.save(invMapper.toEntity(createPersonDto)).getId();
     }
 
     @Override
-    public void updatePerson(Long id, UpdateInvestorDto updatePersonDto) {
+    public void updatePerson(UUID id, UpdateInvestorDto updatePersonDto) {
         Investor investor = invRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(investorNotFound(id)));
         invMapper.toEntity(updatePersonDto, investor);
     }
 
     @Override
-    public void deletePerson(Long id) {
+    public void deletePerson(UUID id) {
         if (!invRepo.existsById(id)){
             throw new ResourceNotFoundException(investorNotFound(id));
         }
         invRepo.deleteById(id);
     }
 
-    public List<GetStockDto> getWatchlist(Long id){
+    public List<GetStockDto> getWatchlist(UUID id){
         var investor = invRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(investorNotFound(id)));
         return stockMapper.toDtoList(investor.getWatchlist());
     }
 
-    public void addToWatchlist(Long investorId, Long stockId){
+    public void addToWatchlist(UUID investorId, UUID stockId){
         Stock stock = stockRepo.findById(stockId)
                 .orElseThrow(() -> new ResourceNotFoundException(stockNotFound(stockId)));
         Investor investor = invRepo.findById(investorId)
@@ -80,7 +81,7 @@ public class InvestorServiceImpl implements PersonService<GetInvestorDto, Create
         investor.addStock(stock);
     }
 
-    public void removeFromWatchlist(Long investorId, Long stockId){
+    public void removeFromWatchlist(UUID investorId, UUID stockId){
         Stock stock = stockRepo.findById(stockId)
                 .orElseThrow(() -> new ResourceNotFoundException(stockNotFound(stockId)));
         Investor investor = invRepo.findById(investorId)

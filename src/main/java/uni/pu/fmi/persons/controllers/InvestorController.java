@@ -18,6 +18,7 @@ import uni.pu.fmi.stocks.dtos.stock.GetStockDto;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
@@ -37,41 +38,41 @@ public class InvestorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetInvestorDto> getInvestorById(@PathVariable Long id) {
+    public ResponseEntity<GetInvestorDto> getInvestorById(@PathVariable UUID id) {
         return ok(service.getById(id));
     }
 
     @PostMapping("/new")
     public ResponseEntity<?> createInvestor(@RequestBody @Valid CreateInvestorDto dto) {
-        Long id = service.createPerson(dto);
+        UUID id = service.createPerson(dto);
         return created(URI.create("/investors/" + id)).build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateInvestor(@PathVariable Long id, @RequestBody UpdateInvestorDto dto) {
+    public ResponseEntity<?> updateInvestor(@PathVariable UUID id, @RequestBody UpdateInvestorDto dto) {
         service.updatePerson(id, dto);
         return ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteInvestor(@PathVariable Long id) {
+    public ResponseEntity<?> deleteInvestor(@PathVariable UUID id) {
         service.deletePerson(id);
         return ok().build();
     }
 
     @GetMapping("/{id}/watchlist")
-    public ResponseEntity<List<GetStockDto>> getStocksInWatchlist(@PathVariable Long id){
+    public ResponseEntity<List<GetStockDto>> getStocksInWatchlist(@PathVariable UUID id){
         return ok(service.getWatchlist(id));
     }
 
     @PostMapping("/{investorId}/watchlist/add/{stockId}")
-    public ResponseEntity<?> addToWatchlist(@PathVariable Long investorId, @PathVariable Long stockId){
+    public ResponseEntity<?> addToWatchlist(@PathVariable UUID investorId, @PathVariable UUID stockId){
         service.addToWatchlist(investorId, stockId);
         return ok().build();
     }
 
     @DeleteMapping("/{investorId}/watchlist/remove/{stockId}")
-    public ResponseEntity<?> removeFromWatchlist(@PathVariable Long investorId, @PathVariable Long stockId){
+    public ResponseEntity<?> removeFromWatchlist(@PathVariable UUID investorId, @PathVariable UUID stockId){
         service.removeFromWatchlist(investorId, stockId);
         return ok().build();
     }

@@ -13,6 +13,7 @@ import uni.pu.fmi.trades.repositories.TradeRepository;
 import uni.pu.fmi.trades.services.TradeService;
 
 import java.util.List;
+import java.util.UUID;
 
 import static uni.pu.fmi.exceptions.ErrorConstants.tradeNotFound;
 
@@ -34,7 +35,7 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public GetTradeDto getById(Long id) {
+    public GetTradeDto getById(UUID id) {
         return mapper.toDto(repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(tradeNotFound(id))));
     }
@@ -45,25 +46,25 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public GetFullTradeDto getFullById(Long id) {
+    public GetFullTradeDto getFullById(UUID id) {
         return mapper.toFullDto(repo.findByIdFull(id)
                 .orElseThrow(() -> new ResourceNotFoundException(tradeNotFound(id))));
     }
 
     @Override
-    public Long createTrade(CreateTradeDto createTradeDto) {
+    public UUID createTrade(CreateTradeDto createTradeDto) {
         return repo.save(mapper.toEntity(createTradeDto)).getId();
     }
 
     @Override
-    public void updateTrade(Long id, UpdateTradeDto updateTradeDto) {
+    public void updateTrade(UUID id, UpdateTradeDto updateTradeDto) {
         Trade trade = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(tradeNotFound(id)));
         mapper.toEntity(updateTradeDto, trade);
     }
 
     @Override
-    public void deleteTrade(Long id) {
+    public void deleteTrade(UUID id) {
         if (!repo.existsById(id)){
             throw new ResourceNotFoundException(tradeNotFound(id));
         }

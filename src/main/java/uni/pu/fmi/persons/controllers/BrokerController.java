@@ -17,6 +17,7 @@ import uni.pu.fmi.persons.services.implementations.BrokerServiceImpl;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
@@ -36,24 +37,24 @@ public class BrokerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetBrokerDto> getBrokerById(@PathVariable Long id) {
+    public ResponseEntity<GetBrokerDto> getBrokerById(@PathVariable UUID id) {
         return ok(service.getById(id));
     }
 
     @PostMapping("/new")
     public ResponseEntity<?> createBroker(@RequestBody @Valid CreateBrokerDto dto) {
-        Long id = service.createPerson(dto);
+        UUID id = service.createPerson(dto);
         return created(URI.create("/brokers/" + id)).build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateBroker(@PathVariable Long id, @RequestBody UpdateBrokerDto dto) {
+    public ResponseEntity<?> updateBroker(@PathVariable UUID id, @RequestBody UpdateBrokerDto dto) {
         service.updatePerson(id, dto);
         return ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBroker(@PathVariable Long id) {
+    public ResponseEntity<?> deleteBroker(@PathVariable UUID id) {
         service.deletePerson(id);
         return ok().build();
     }

@@ -14,6 +14,7 @@ import uni.pu.fmi.trades.dtos.trade.GetTradeDto;
 import uni.pu.fmi.trades.dtos.trade.UpdateTradeDto;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = {InvestorMapper.class, StockMapper.class, BrokerMapper.class})
 public interface TradeMapper {

@@ -1,6 +1,7 @@
 package uni.pu.fmi.trades.dtos.trade;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public record GetTradeDto(Long investorId, Long stockId, Long brokerId, Double shares, LocalDateTime tradeDate) {
+public record GetTradeDto(UUID investorId, UUID stockId, UUID brokerId, Double shares, LocalDateTime tradeDate) {
 }

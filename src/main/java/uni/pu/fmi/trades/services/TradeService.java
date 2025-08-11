@@ -6,16 +6,17 @@ import uni.pu.fmi.trades.dtos.trade.GetTradeDto;
 import uni.pu.fmi.trades.dtos.trade.UpdateTradeDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface TradeService {
     List<GetTradeDto> getAll();
 
-    GetTradeDto getById(Long id);
+    GetTradeDto getById(UUID id);
 
     List<GetFullTradeDto> getAllFull();
 
-    GetFullTradeDto getFullById(Long id);
-    Long createTrade(CreateTradeDto createPersonDto);
-    void updateTrade(Long id, UpdateTradeDto updatePersonDto);
-    void deleteTrade(Long id);
+    GetFullTradeDto getFullById(UUID id);
+    UUID createTrade(CreateTradeDto createPersonDto);
+    void updateTrade(UUID id, UpdateTradeDto updatePersonDto);
+    void deleteTrade(UUID id);
 }
